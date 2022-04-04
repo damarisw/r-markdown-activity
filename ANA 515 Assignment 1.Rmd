@@ -1,0 +1,55 @@
+---
+title: "Damaris Wanyoike"
+author: "ANA 515 Assignment 1"
+date: "3/26/2022"
+output:
+  word_document: default
+  html_document:
+    theme: null
+    bootswatch: sandstone
+---
+
+```{r setup, include=FALSE}
+#installing the following packages
+library(tidyverse)
+library(knitr)
+library(bslib)
+```
+
+```{r, include = FALSE}
+#attach dataset from github
+url <- "https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv"
+gun_deaths <- read_csv (url)
+
+```
+
+```{r, include =FALSE}
+youth <- gun_deaths %>%
+  filter(age <= 65)
+```
+
+```{r, include = FALSE}
+summary(youth)
+```
+
+
+We have data about `r nrow(gun_deaths)` individuals killed by guns. Only `r nrow(gun_deaths) - nrow(youth)` are older than 65. The distribution of the remainder is shown below:
+
+Gun deaths by age
+
+```{r youth-dist,echo= FALSE}
+youth%>%
+  ggplot(aes(age))+
+  geom_freqpoly(binwidth=1)
+```
+
+Gun deaths by race
+
+```{r race-dist, echo=FALSE}
+youth %>%
+  ggplot(aes(fct_infreq(race)%>%fct_rev()))+
+  geom_bar() + coord_flip() +
+  labs(x="Victim race")
+
+```
+
